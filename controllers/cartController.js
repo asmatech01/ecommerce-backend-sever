@@ -289,11 +289,14 @@
 const Cart = require('../models/cartSchema');
 const Product = require('../models/ProductSchema'); // Import your Product schema
 
+const generateSessionId = (req) => {
+  return req.sessionID || req.ip;
+}
 // Add a product to the cart
 exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
-    console.log(productId, quantity)
+    console.log(" here is request body:",  req.body)
     const product = await Product.findById(productId);
 
     if (!product) {
@@ -308,7 +311,8 @@ exports.addToCart = async (req, res) => {
       cart = await Cart.findOne({ user: userId });
     } else {
       // If there's no JWT token, it's a guest user
-      const sessionId = req.sessionId || req.ip;
+      // const sessionId = req.sessionId || req.ip;
+      const sessionId = generateSessionId(req);
       cart = await Cart.findOne({ sessionId: sessionId });
     }
 
@@ -316,7 +320,7 @@ exports.addToCart = async (req, res) => {
       // If the cart doesn't exist, create a new one
       const cartData = {
         user: req.user ? req.user._id : null,
-        sessionId: req.sessionId, // Replace with your actual session handling logic
+        sessionId: sessionId, // Replace with your actual session handling logic
         items: [],
       };
       console.log('before saving cart -', sessionId )
@@ -335,7 +339,9 @@ exports.addToCart = async (req, res) => {
     await cart.save();
     return res.status(200).json({ message: 'Product added to cart successfully' });
   } catch (error) {
-    return res.status(500).json({ message: 'Internal server error' });
+    // return res.status(500).json({ message: 'Internal server error' });
+    console.log({ message: error });
+     
   }
 };
 // Update the cart (e.g., change quantity of an item)

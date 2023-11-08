@@ -1,23 +1,23 @@
 const axios = require('axios'); // You may need to install the axios package
 
-const data = {
-  // firstName: "saad",
-  // lastName: "shaikh",
-  // email: "saadshaikh@gmail.com",
-  // password: "saad12345",
+const order = {
+  firstName: "saad",
+  lastName: "shaikh",
+  email: "saadshaikh@gmail.com",
+  password: "saad12345",
   content: "651aa41143761d9e3ffdab15",
-  // quantity: 4 ,
+  quantity: 4 ,
 
 };
 const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI3ZWRlODkxZTRiNGE2MTFlMGI1NDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTY5NzU0NDA5NCwiZXhwIjoxNjk3NjMwNDk0fQ.3Wg_pBFzJs6NgHI-jV7XdYy8Rh9IC8FH8OGI7wPZmdU';
 
 // axios.post('http://192.168.100.5:4000/api/auth/signin', data
-axios.post('http://192.168.100.5:443/api/conditions', data,
-{headers: {
-  Authorization: `${jwtToken}`,
-  'Content-Type': 'application/json',
-}
-}
+axios.post('http://192.168.100.5:443/api/order/create', order,
+// {headers: {
+//   Authorization: `${jwtToken}`,
+//   'Content-Type': 'application/json',
+// }
+// }
 )
   .then(response => {
     console.log('Response:', response.data);

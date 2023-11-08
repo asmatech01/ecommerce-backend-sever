@@ -5,16 +5,17 @@ const router = express.Router();
 const orderController = require('../controllers/orderController');
 const { isAuthenticated } = require('../middleware/auth');
 
-// Create a new order
-router.post('/create', isAuthenticated, orderController.createOrder);
+// router.get('/', isAuthenticated, orderController.getAllOrders);
 
+// Create a new order
+router.post('/create', orderController.createOrder);
 // Retrieve order details
-router.get('/:orderId', isAuthenticated, orderController.getOrderDetails);
+// router.get('/:orderId', isAuthenticated, orderController.getOrderDetails);
 
 // Update order status
-router.put('/:orderId/update-status', isAuthenticated, orderController.updateOrderStatus);
+// router.put('/:orderId/update-status', isAuthenticated, orderController.updateOrderStatus);
 
 // List user's order history
-router.get('/user/orders', isAuthenticated, orderController.listUserOrders);
+// router.get('/user/orders', isAuthenticated, orderController.listUserOrders);
 
 module.exports = router;

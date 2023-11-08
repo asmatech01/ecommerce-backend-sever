@@ -6,9 +6,11 @@ const fs = require('fs');
 // Controller functions for product operations
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find({})
+    .select("_id name price quantity description productImage category color brand")
+    .populate({ path: "category", select: "_id name" })
+    .exec();
     res.status(200).json({products});
-    console.log("here is products")
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -55,7 +57,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // Use the upload middleware to handle the productPicture field
 exports.createProduct = async (req, res) => {
   try {
-    const { name, price, description, category, quantity, color } = req.body;
+    const { name, price, description, category, quantity, color, brand } = req.body;
 
     let productImage = [];
 
@@ -77,6 +79,7 @@ exports.createProduct = async (req, res) => {
       price,
       quantity,
       color,
+      brand,
       // productImage: path.join('uploads', filename), // Construct the file path
       productImage,
       description,
